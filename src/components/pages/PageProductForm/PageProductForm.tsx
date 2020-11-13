@@ -109,7 +109,8 @@ export default function PageProductForm() {
   const onSubmit = (values: FormikValues) => {
     const formattedValues = ProductSchema.cast(values);
     const productToSave = id ? {...ProductSchema.cast(formattedValues), id} : formattedValues;
-    axios.post(`${API_PATHS.bff}/products`, productToSave)
+    const axiosMethod = (id ? axios.put : axios.post).bind(axios);
+    axiosMethod(`${API_PATHS.bff}/products`, productToSave)
       .then(() => history.push('/admin/products'));
   };
 
